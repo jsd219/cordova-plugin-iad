@@ -33,12 +33,13 @@
     // These notifications are required for re-placing the ad on orientation
     // changes. Start listening for notifications here since we need to
     // translate the Smart Banner constants according to the orientation.
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self
-           selector:@selector(deviceOrientationChange:)
-               name:UIDeviceOrientationDidChangeNotification
-             object:nil];
+
+//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+//    [[NSNotificationCenter defaultCenter]
+//        addObserver:self
+//           selector:@selector(deviceOrientationChange:)
+//               name:UIDeviceOrientationDidChangeNotification
+//             object:nil];
   }
   return self;
 }
@@ -111,19 +112,19 @@
         BOOL adIsShowing = [[[super webView] superview].subviews containsObject:self.adView];
         if (adIsShowing) {
             if (self.bannerAtTop) {
-                webViewFrame.origin.y = adViewFrame.size.height;
+//                webViewFrame.origin.y = adViewFrame.size.height;
             } else {
-                webViewFrame.origin.y = 0;
+//                webViewFrame.origin.y = 0;
                 CGRect adViewFrame = self.adView.frame;
                 CGRect superViewFrame = [[super webView] superview].frame;
                 adViewFrame.origin.y = (self.isLandscape ? superViewFrame.size.width : superViewFrame.size.height) - adViewFrame.size.height;
                 self.adView.frame = adViewFrame;
             }
 
-            webViewFrame.size.height = self.isLandscape? (superViewFrame.size.width - adViewFrame.size.height) : (superViewFrame.size.height - adViewFrame.size.height);
+//            webViewFrame.size.height = self.isLandscape? (superViewFrame.size.width - adViewFrame.size.height) : (superViewFrame.size.height - adViewFrame.size.height);
         } else {
-            webViewFrame.size = self.isLandscape? CGSizeMake(superViewFrame.size.height, superViewFrame.size.width) : superViewFrame.size;
-            webViewFrame.origin = CGPointZero;
+//            webViewFrame.size = self.isLandscape? CGSizeMake(superViewFrame.size.height, superViewFrame.size.width) : superViewFrame.size;
+//            webViewFrame.origin = CGPointZero;
         }
 
         //[UIView beginAnimations:@"blah" context:NULL];
@@ -143,11 +144,11 @@
 - (void) __prepare:(BOOL)atTop
 {
 	NSLog(@"CDViAd Prepare Ad, bannerAtTop: %d", atTop);
-	
+
 	Class adBannerViewClass = NSClassFromString(@"ADBannerView");
 	if (adBannerViewClass && !self.adView) {
 		self.adView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-		self.adView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait, ADBannerContentSizeIdentifierLandscape, nil];		
+		self.adView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait, ADBannerContentSizeIdentifierLandscape, nil];
 
 		UIDeviceOrientation currentOrientation = [[UIDevice currentDevice] orientation];
 		if( UIInterfaceOrientationIsLandscape( currentOrientation ) ) {
@@ -163,11 +164,11 @@
 		//[self.webView.superview addSubview:self.adView];
 
         self.webView.superview.backgroundColor = [UIColor blackColor];
-        
+
 		self.bannerAtTop = atTop;
 		self.bannerIsVisible = NO;
 		self.bannerIsInitialized = YES;
-        
+
         [self resizeViews];
 	}
 }
@@ -175,19 +176,19 @@
 - (void) __showAd:(BOOL)show
 {
 	NSLog(@"CDViAd Show Ad: %d", show);
-	
+
 	if (!self.bannerIsInitialized){
 		[self __prepare:NO];
 	}
-	
+
 	if (!(NSClassFromString(@"ADBannerView") && self.adView)) { // ad classes not available
 		return;
 	}
-	
+
 	if (show == self.bannerIsVisible) { // same state, nothing to do
 		return;
 	}
-	
+
 	if (show) {
 		//[UIView beginAnimations:@"blah" context:NULL];
         //[UIView setAnimationDuration:0.5];
@@ -197,7 +198,7 @@
 		[[[super webView] superview] addSubview:self.adView];
 		[[[super webView] superview] bringSubviewToFront:self.adView];
         [self resizeViews];
-		
+
 		//[UIView commitAnimations];
 
 		self.bannerIsVisible = YES;
@@ -206,15 +207,15 @@
         //[UIView setAnimationDuration:0.5];
         //[self.adView setAlpha:0.0];
         //[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-		
+
 		[self.adView removeFromSuperview];
         [self resizeViews];
-		
+
 		//[UIView commitAnimations];
-		
+
 		self.bannerIsVisible = NO;
 	}
-	
+
 }
 
 #pragma mark -
@@ -226,7 +227,7 @@
 
     [self writeJavascript:@"cordova.fireDocumentEvent('onClickAd');"];
     if (!willLeave) {
-        
+
     }
     return YES;
 }
@@ -239,7 +240,7 @@
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
     NSLog(@"Banner Ad loaded");
-    
+
 	Class adBannerViewClass = NSClassFromString(@"ADBannerView");
     if (adBannerViewClass) {
 		if (!self.bannerIsVisible) {
