@@ -2,17 +2,17 @@ var argscheck = require('cordova/argscheck'), exec = require('cordova/exec');
 
 iAdExport = {};
 
-iAdExport.createBannerView = function(options, successCallback, failureCallback) {
+iAdExport.prepare = function(options, successCallback, failureCallback) {
 	var defaults = {
 		'bannerAtTop' : false
 	};
 
 	// Merge optional settings into defaults.
-	for ( var key in defaults) {
+	/*for ( var key in defaults) {
 		if (typeof options[key] !== 'undefined') {
 			defaults[key] = options[key];
 		}
-	}
+	}*/
 	cordova.exec(successCallback, 
 			failureCallback, 
 			'iAd', 
