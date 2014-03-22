@@ -112,19 +112,19 @@
         BOOL adIsShowing = [[[super webView] superview].subviews containsObject:self.adView];
         if (adIsShowing) {
             if (self.bannerAtTop) {
-//                webViewFrame.origin.y = adViewFrame.size.height;
+                webViewFrame.origin.y = adViewFrame.size.height;
             } else {
-//                webViewFrame.origin.y = 0;
+                webViewFrame.origin.y = 0;
                 CGRect adViewFrame = self.adView.frame;
                 CGRect superViewFrame = [[super webView] superview].frame;
                 adViewFrame.origin.y = (self.isLandscape ? superViewFrame.size.width : superViewFrame.size.height) - adViewFrame.size.height;
                 self.adView.frame = adViewFrame;
             }
 
-//            webViewFrame.size.height = self.isLandscape? (superViewFrame.size.width - adViewFrame.size.height) : (superViewFrame.size.height - adViewFrame.size.height);
+            webViewFrame.size.height = self.isLandscape? (superViewFrame.size.width - adViewFrame.size.height) : (superViewFrame.size.height - adViewFrame.size.height);
         } else {
-//            webViewFrame.size = self.isLandscape? CGSizeMake(superViewFrame.size.height, superViewFrame.size.width) : superViewFrame.size;
-//            webViewFrame.origin = CGPointZero;
+            webViewFrame.size = self.isLandscape? CGSizeMake(superViewFrame.size.height, superViewFrame.size.width) : superViewFrame.size;
+            webViewFrame.origin = CGPointZero;
         }
 
         //[UIView beginAnimations:@"blah" context:NULL];
